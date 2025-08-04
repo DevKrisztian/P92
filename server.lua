@@ -57,3 +57,27 @@ AddEventHandler("p92:craftWeapon", function(craftId)
     TriggerClientEvent('esx:showNotification', source, "✅ Sikeresen készítettél: " .. recipe.label)
     TriggerClientEvent('playCraftSound', source)
 end)
+RegisterServerEvent("p92:craftWeapon")
+AddEventHandler("p92:craftWeapon", function()
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer then return end
+
+    local hasAllItems = true
+    for _, req in pairs(requiredItems) do
+        if xPlayer.getInventoryItem(req.item).count < req.amount then
+            TriggerClientEvent('esx:showNotification', source, "❌ Hiányzik: " .. req.item)
+            hasAllItems = false
+            break
+        end
+    end
+
+    if not hasAllItems then return end
+
+    for _, req in pairs(requiredItems) do
+        xPlayer.removeInventoryItem(req.item, req.amount)
+    end
+
+    xPlayer.addWeapon(craftedItem, 100)
+    TriggerClientEvent('esx:showNotification', source, "✅ Legyártottad a P92 fegyvert!")
+    TriggerClientEvent('playCraftSound', source)
+end)
