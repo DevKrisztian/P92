@@ -108,3 +108,20 @@ Citizen.CreateThread(function()
         end
     end
 end)
+local npcModel = "s_m_m_armoured_01"  -- NPC karaktermodell
+local npcCoords = vector3(452.1, -980.2, 30.7)  -- NPC pozíció (példa)
+local npcHeading = 90.0
+local interactionDistance = 2.0
+
+-- NPC betöltés és létrehozás
+Citizen.CreateThread(function()
+    RequestModel(GetHashKey(npcModel))
+    while not HasModelLoaded(GetHashKey(npcModel)) do
+        Wait(100)
+    end
+
+    local npc = CreatePed(4, GetHashKey(npcModel), npcCoords.x, npcCoords.y, npcCoords.z - 1, npcHeading, false, true)
+    SetEntityInvincible(npc, true)
+    FreezeEntityPosition(npc, true)
+    SetBlockingOfNonTemporaryEvents(npc, true)
+end)
