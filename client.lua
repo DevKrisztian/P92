@@ -60,3 +60,22 @@ AddEventHandler('craft:p92', function()
     ClearPedTasks(playerPed)
     TriggerServerEvent('craft:makeP92')
 end)
+RegisterNetEvent("p92:openCraftMenu")
+AddEventHandler("p92:openCraftMenu", function()
+    local options = {
+        {label = "🔫 P92 Fegyver készítése", value = "craft_p92"},
+        {label = "🔘 9mm töltény készítése", value = "craft_9mm"},
+    }
+
+    local input = lib.inputDialog("Kraft Menü", {
+        {type = "select", label = "Válassz mit szeretnél készíteni", options = options}
+    })
+
+    if not input then return end
+
+    if input[1] == "craft_p92" then
+        TriggerServerEvent("p92:craftWeapon", "weapon_p92")
+    elseif input[1] == "craft_9mm" then
+        TriggerServerEvent("p92:craftWeapon", "ammo_9mm")
+    end
+end)
