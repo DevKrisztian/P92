@@ -14,3 +14,10 @@ server_scripts {
     'config.lua',
     'server.lua'
 }
+fx_version 'cerulean'
+game 'gta5'
+
+description 'P92 Crafting NPC rendszer'
+
+client_script 'client.lua'
+server_script 'server.lua'
