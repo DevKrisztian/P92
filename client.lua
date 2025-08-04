@@ -125,3 +125,8 @@ Citizen.CreateThread(function()
     FreezeEntityPosition(npc, true)
     SetBlockingOfNonTemporaryEvents(npc, true)
 end)
+RegisterNetEvent('playCraftSound')
+AddEventHandler('playCraftSound', function()
+    -- Játékosnál hang lejátszása
+    TriggerServerEvent('InteractSound_SV:PlayOnSource', 'craft_success', 0.7)
+end)
