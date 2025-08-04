@@ -1,3 +1,28 @@
-Config = {}
+RegisterNetEvent("p92:playCrafting")
+AddEventHandler("p92:playCrafting", function(label)
+    local playerPed = PlayerPedId()
 
-Config.KraftPozicio = vector3(453.1, -980.0, 30.6) -- például rendőrség mellett
+    -- Animáció betöltése
+    local dict = "amb@prop_human_parking_meter@male@idle_a"
+    RequestAnimDict(dict)
+    while not HasAnimDictLoaded(dict) do
+        Wait(0)
+    end
+
+    -- Progress bar megjelenítés
+    lib.progressBar({
+        duration = 5000, -- 5 másodperc
+        label = "Készítés folyamatban: " .. label,
+        useWhileDead = false,
+        canCancel = false,
+        disable = {
+            car = true,
+            move = true,
+            combat = true,
+        },
+        anim = {
+            dict = dict,
+            clip = "idle_a",
+        }
+    })
+end)
