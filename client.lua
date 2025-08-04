@@ -79,3 +79,32 @@ AddEventHandler("p92:openCraftMenu", function()
         TriggerServerEvent("p92:craftWeapon", "ammo_9mm")
     end
 end)
+-- 3D szöveg megjelenítése
+function Draw3DText(x, y, z, text)
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextEntry("STRING")
+    SetTextCentre(true)
+    AddTextComponentString(text)
+    SetDrawOrigin(x, y, z, 0)
+    DrawText(0.0, 0.0)
+    ClearDrawOrigin()
+end
+
+-- Interakció figyelése
+Citizen.CreateThread(function()
+    while true do
+        Wait(0)
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+        local dist = #(playerCoords - npcCoords)
+
+        if dist < interactionDistance then
+            Draw3DText(npcCoords.x, npcCoords.y, npcCoords.z + 1.0, "[E] - P92 Fegyver készítés")
+            if IsControlJustReleased(0, 38) then  -- 'E' gomb
+                TriggerServerEvent("p92:craftWeapon")
+            end
+        end
+    end
+end)
